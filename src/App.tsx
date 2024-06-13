@@ -1,14 +1,11 @@
-// import { useState } from 'react'
+// import { useState } from 'react';
 
-function App() {
+const App = () => (
+  <>
+    <div>
+      <p>Starter</p>
+    </div>
+  </>
+);
 
-  return (
-    <>
-      <div>
-        <p>Starter</p>
-      </div>
-    </>
-  )
-}
-
-export default App
+export default App;
