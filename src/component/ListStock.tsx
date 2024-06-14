@@ -1,15 +1,14 @@
-import { useLocation } from 'react-router-dom';
 import { StockData } from '../types';
 
-const ListStock = () => {
-  const location = useLocation();
-  const { data } = location.state || { data: [] };
+type ListStockProps = {
+  data: StockData[];
+};
 
+const ListStock: React.FC<ListStockProps> = ({ data }) => {
   return (
     <div>
-      <p>List of Stocks</p>
       <ul>
-        {data.map((stock: StockData) => (
+        {data.map((stock) => (
           <li key={stock.symbol}>
             {stock.name} ({stock.symbol})
           </li>

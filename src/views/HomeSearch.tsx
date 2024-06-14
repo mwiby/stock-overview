@@ -1,17 +1,17 @@
+import { useState } from 'react';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import ListStock from '../component/ListStock';
 import { StockData } from '../types';
 
 const fetchStockData = async (): Promise<StockData[]> => {
-
   const apiUrl = import.meta.env.VITE_API_URL;
   const apiKey = import.meta.env.VITE_API_KEY;
-  
+
   if (!apiKey) {
     throw new Error('API key is missing');
   }
 
-  const response = await fetch(`${apiUrl}search?query=AAP&apikey=${apiKey}`);
+  const response = await fetch(`${apiUrl}search?query=Apple&apikey=${apiKey}`);
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
@@ -19,7 +19,7 @@ const fetchStockData = async (): Promise<StockData[]> => {
 };
 
 const HomeSearch = () => {
-  const navigate = useNavigate();
+  const [showList, setShowList] = useState(false);
   const { data, error, isLoading }: UseQueryResult<StockData[], Error> = useQuery({
     queryKey: ['stockData'],
     queryFn: fetchStockData,
@@ -31,9 +31,8 @@ const HomeSearch = () => {
   return (
     <div>
       <p>Home Search view</p>
-      <button onClick={() => navigate('/list', { state: { data } })}>
-        View Stock List
-      </button>
+      <button onClick={() => setShowList(true)}>View Stock List</button>
+      {showList && data && <ListStock data={data} />}
     </div>
   );
 };
