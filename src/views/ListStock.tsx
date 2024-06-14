@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { StockData } from '../types';
 
 const ListStock = () => {
   const location = useLocation();
@@ -8,7 +9,7 @@ const ListStock = () => {
     <div>
       <p>List of Stocks</p>
       <ul>
-        {data.map((stock: any) => (
+        {data.map((stock: StockData) => (
           <li key={stock.symbol}>
             {stock.name} ({stock.symbol})
           </li>

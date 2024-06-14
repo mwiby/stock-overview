@@ -1,16 +1,17 @@
-import React from 'react';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-
-type StockData = {
-  symbol: string;
-  name: string;
-  // Add other properties if needed
-};
+import { StockData } from '../types';
 
 const fetchStockData = async (): Promise<StockData[]> => {
-  const apiKey = process.env.REACT_APP_API_KEY;
-  const response = await fetch(`https://financialmodelingprep.com/api/v3/search?query=AAPL&apikey=${apiKey}`);
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const apiKey = import.meta.env.VITE_API_KEY;
+  
+  if (!apiKey) {
+    throw new Error('API key is missing');
+  }
+
+  const response = await fetch(`${apiUrl}search?query=AAP&apikey=${apiKey}`);
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
