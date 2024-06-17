@@ -38,8 +38,9 @@ const HomeSearch = () => {
     enabled: false
   });
 
+  // Only trigger search when searchQuery is not empty
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && searchQuery.trim() !== '') {
       setShowList(true);
       refetch();
     }
@@ -59,7 +60,7 @@ const HomeSearch = () => {
   };
 
   const itemsPerPageControl = (
-    <FormControl variant="outlined" className="items-per-page-select">
+    <FormControl variant="outlined" className="items-per-page-select" style={{ minWidth: 120 }}>
       <Select
         value={itemsPerPage}
         onChange={handleItemsPerPageChange}
