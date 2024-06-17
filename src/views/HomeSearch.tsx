@@ -10,6 +10,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
+import CircularProgress from '@mui/material/CircularProgress';
 import '../index.css';
 
 const fetchStockData = async (query: string): Promise<StockData[]> => {
@@ -74,9 +75,6 @@ const HomeSearch = () => {
     </FormControl>
   );
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
   return (
     <div className="home-search-container">
       <div className="text-field-container">
@@ -101,7 +99,13 @@ const HomeSearch = () => {
           }}
         />
       </div>
+      {isLoading && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <CircularProgress />
+        </div>
+      )}
       {showList && data && <ListStock data={data} itemsPerPage={itemsPerPage} itemsPerPageControl={itemsPerPageControl} />}
+      {error && <div>Error: {error.message}</div>}
     </div>
   );
 };
