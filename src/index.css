@@ -1,3 +1,16 @@
 body {
   font-family: 'Roboto', sans-serif;
+  margin: 0px;
+}
+.home-search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #e3ebf0;
+}
+
+.text-field-container {
+  width: 300px;
 }
