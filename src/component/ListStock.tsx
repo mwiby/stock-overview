@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StockData } from '../types';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -17,6 +17,14 @@ type ListStockProps = {
 
 const ListStock: React.FC<ListStockProps> = ({ data, itemsPerPage, itemsPerPageControl }) => {
   const [page, setPage] = useState(0);
+
+  // Effect to reset page number if it's out of range when data length changes
+  useEffect(() => {
+    const maxPage = Math.ceil(data.length / itemsPerPage) - 1;
+    if (page > maxPage) {
+      setPage(0);
+    }
+  }, [data.length, itemsPerPage, page]);
 
   const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
@@ -44,7 +52,7 @@ const ListStock: React.FC<ListStockProps> = ({ data, itemsPerPage, itemsPerPageC
           </TableBody>
         </Table>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
+          rowsPerPageOptions={[itemsPerPage]}
           component="div"
           count={data.length}
           rowsPerPage={itemsPerPage}

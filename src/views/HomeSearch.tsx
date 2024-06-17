@@ -10,7 +10,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import '../index.css';
 
 const fetchStockData = async (query: string): Promise<StockData[]> => {
@@ -61,11 +60,11 @@ const HomeSearch = () => {
 
   const itemsPerPageControl = (
     <FormControl variant="outlined" className="items-per-page-select">
-      <InputLabel>Items per page</InputLabel>
       <Select
         value={itemsPerPage}
         onChange={handleItemsPerPageChange}
-        label="Items per page"
+        displayEmpty
+        inputProps={{ 'aria-label': 'Items per page' }}
       >
         <MenuItem value={5}>5 items</MenuItem>
         <MenuItem value={10}>10 items</MenuItem>
@@ -95,7 +94,7 @@ const HomeSearch = () => {
                     <ClearIcon />
                   </IconButton>
                 )}
-                {!searchQuery && <SearchIcon />}
+                {!searchQuery && <SearchIcon />} {/* Conditionally render SearchIcon */}
               </InputAdornment>
             )
           }}
