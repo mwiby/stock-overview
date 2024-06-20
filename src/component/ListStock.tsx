@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { StockData } from '../types';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,25 +12,19 @@ import TablePagination from '@mui/material/TablePagination';
 type ListStockProps = {
   data: StockData[];
   itemsPerPage: number;
+  page: number;
+  onPageChange: (newPage: number) => void;
   itemsPerPageControl: React.ReactNode;
 };
 
-const ListStock: React.FC<ListStockProps> = ({ data, itemsPerPage, itemsPerPageControl }) => {
-  const [page, setPage] = useState(0);
-
-  // Effect to reset page number if it's out of range when data length changes
-  useEffect(() => {
-    const maxPage = Math.ceil(data.length / itemsPerPage) - 1;
-    if (page > maxPage) {
-      setPage(0);
-    }
-  }, [data.length, itemsPerPage, page]);
-
+const ListStock: React.FC<ListStockProps> = ({ data, itemsPerPage, page, onPageChange, itemsPerPageControl }) => {
   const handleChangePage = (_: unknown, newPage: number) => {
-    setPage(newPage);
+    onPageChange(newPage);
   };
 
-  const paginatedData = data.slice(page * itemsPerPage, page * itemsPerPage + itemsPerPage);
+  useEffect(() => {
+    onPageChange(page);
+  }, [itemsPerPage, onPageChange, page]);
 
   return (
     <div>
@@ -40,13 +34,19 @@ const ListStock: React.FC<ListStockProps> = ({ data, itemsPerPage, itemsPerPageC
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Symbol</TableCell>
+              <TableCell>Price</TableCell>
+              <TableCell>Changes</TableCell>
+              <TableCell>Changes %</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedData.map((stock) => (
+            {data.map((stock) => (
               <TableRow key={stock.symbol}>
                 <TableCell>{stock.name}</TableCell>
                 <TableCell>{stock.symbol}</TableCell>
+                <TableCell>{stock.price}</TableCell>
+                <TableCell>{stock.changes}</TableCell>
+                <TableCell>{stock.changesPercentage}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -54,7 +54,7 @@ const ListStock: React.FC<ListStockProps> = ({ data, itemsPerPage, itemsPerPageC
         <TablePagination
           rowsPerPageOptions={[itemsPerPage]}
           component="div"
-          count={data.length}
+          count={data.length * itemsPerPage} // Assuming the API returns only the current page data
           rowsPerPage={itemsPerPage}
           page={page}
           onPageChange={handleChangePage}
